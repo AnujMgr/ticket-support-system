@@ -29,7 +29,7 @@ class AuthController extends BaseController
             'scope' => '',
         ]);
 
-        if (!empty($response)) {
+        if (!empty($response) && !isset($response['error'])) {
             $token = $response->json();
 
             return response()
@@ -43,7 +43,7 @@ class AuthController extends BaseController
     public function refreshToken()
     {
         $refreshToken = request()->cookie('refreshToken');
-        if(!$refreshToken) return response()->json(['message' => 'Something went wrong'], 500);
+        if (!$refreshToken) return response()->json(['message' => 'Something went wrong'], 500);
         $response = Http::asForm()->post(url('/oauth/token'), [
             'grant_type' => 'refresh_token',
             'refresh_token' => request()->cookie('refreshToken'),
@@ -52,9 +52,10 @@ class AuthController extends BaseController
             'scope' => '',
         ]);
 
-        if (empty($response)) {
+        if (empty($response) || isset($response['error'])) {
             return response()->json(['message' => 'Something went wrong'], 500);
         }
+        
         $token = $response->json();
         return response()
             ->json(['accessToken' => $token['access_token']])
