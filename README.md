@@ -21,7 +21,7 @@ A full-stack support ticket system built using **Laravel** for the backend and *
 - Laravel 11.31
 - laravel/passport 13.0
   
-** Frontend
+**Frontend**
 - React JS 19.1.0
 - Redux 9.2.0
 - ShadcnUI/ TailwindCSS
