@@ -7,7 +7,7 @@ A full-stack support ticket system built using **Laravel** for the backend and *
 ## 🧩 Project Structure
 /ticket-support-system
 │
-├── backend/ # Laravel 10.x app using Passport for JWT auth and ticket management
+├── backend/ # Laravel 11 app using Passport for JWT auth and ticket management
 │ └── ...
 │
 ├── frontend/ # React 18+ app using Redux and Axios for state & API handling
