@@ -4,7 +4,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getUsers: builder.query({
       query: () => '/users',
-      providesTags: ["Users"],
+      providesTags: ["users"],
     }),
   })
 })

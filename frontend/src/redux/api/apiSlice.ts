@@ -21,7 +21,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
   if (result?.error?.status === 401) {
     // send refresh token to get new access token 
     const refreshResult = await baseQuery('/refresh-token', api, extraOptions)
-    
+
     if (refreshResult?.data) {
       const user = (api.getState() as RootState).auth.user
       // store the new token 
@@ -40,5 +40,5 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
   endpoints: _builder => ({}),
-  tagTypes: ["Users", "User"]
+  tagTypes: ["users", "tickets"],
 })
