@@ -7,7 +7,11 @@ const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_BASE_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    headers.set("Accept", "application/json");
+    // headers.set("Accept", "application/json");
+    const contentType = headers.get("Content-Type");
+    if (!contentType || contentType === "application/json") {
+      headers.set("Accept", "application/json")
+    }
     const token = (getState() as RootState).auth.token
     if (token) {
       headers.set("authorization", `Bearer ${token}`)
@@ -23,7 +27,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     const refreshResult = await baseQuery('/refresh-token', api, extraOptions)
 
     if (refreshResult?.data) {
-      const user = (api.getState() as RootState).auth.user
+      const user = (api.getState() as RootState).auth?.user
       // store the new token 
       api.dispatch(setCredentials({ ...refreshResult.data, user }))
       // retry the original query with new access token 

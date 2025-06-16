@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { Controller, useForm } from "react-hook-form"
 
-import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -13,9 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { loginFormSchema } from "@/schema/login-form.schema"
 import { setCredentials } from "@/redux/features/auth/authSlice"
 import { useLoginMutation } from "@/redux/features/auth/authApiSlice"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
-export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
+export function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [err, setErr] = useState<string | null>(null)

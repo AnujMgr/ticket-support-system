@@ -1,5 +1,6 @@
 import { LoginForm } from "@/components/forms/LoginForm"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { SETTINGS } from "@/lib/constants"
 import { GalleryVerticalEnd } from "lucide-react"
 
 function LoginPage() {
@@ -10,7 +11,7 @@ function LoginPage() {
           <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
             <GalleryVerticalEnd className="size-4" />
           </div>
-          Acme Inc.
+          {SETTINGS.title}.
         </a>
 
         <div className={"flex flex-col gap-6"}>

@@ -13,13 +13,21 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  type PaginationState,
+  type OnChangeFn,
 } from "@tanstack/react-table";
-// import PaginationBtn from "./Pagination";
 
-import { Tabs, TabsContent } from "./ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import TablePagination from "./table-pagination";
+import { tableParser } from "@/lib/utils";
 
 type TableDataProps = {
   data: any;
+  pagination: {
+    pageIndex: number;
+    pageSize: number;
+  };
+  onPageChange?: OnChangeFn<PaginationState> | undefined;
   columns: any;
   onError?: boolean;
   errorMessage?: string;
@@ -30,7 +38,11 @@ type TableDataProps = {
 const TableData: React.FC<TableDataProps> = ({
   data,
   columns,
+  pagination,
+  onPageChange,
 }) => {
+  const { rows, ...meta } = tableParser({ data });
+
   const {
     getRowModel,
     getHeaderGroups,
@@ -38,38 +50,52 @@ const TableData: React.FC<TableDataProps> = ({
     getCanPreviousPage,
     nextPage,
     previousPage,
-    getState,
     getPageCount,
     setPageIndex,
   } = useReactTable({
-    data,
+    data: rows,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
+    state: {
+      pagination,
+      columnPinning: {
+        right: ['action']
+      }
+    },
+    onPaginationChange: onPageChange,
   });
+  const table = {
+    setPageIndex,
+    nextPage,
+    previousPage,
+    getCanNextPage,
+    getCanPreviousPage,
+    getPageCount,
+  }
 
-  const { pageIndex } = getState().pagination;
 
   return (
     <Fragment>
       <Tabs
         defaultValue="outline"
-        className="w-full flex-col justify-start gap-6"
+        className="flex-col justify-start w-full gap-6"
       >
         <TabsContent
           value="outline"
           className="relative flex flex-col gap-4 overflow-auto"
         >
-          <div className="overflow-hidden rounded-lg border">
+          <div className="overflow-hidden border rounded-lg">
 
             <Table className="min-w-full ">
-              <TableHeader className="bg-muted sticky top-0 z-10">
+              <TableHeader className="sticky top-0 z-10 bg-muted">
                 {getHeaderGroups().map((headerGroup: any, index: any) => (
                   <TableRow key={index}>
                     {headerGroup.headers.map((header: any, index: any) => (
                       <TableHead
                         key={index}
-                        className="text-gray-500 dark:text-gray-200 font-semibold"
+                        className="font-semibold text-gray-500 dark:text-gray-200"
                       >
                         {flexRender(
                           header.column.columnDef.header,
@@ -108,6 +134,8 @@ const TableData: React.FC<TableDataProps> = ({
         getState={getState}
         setPageIndex={setPageIndex}
       /> */}
+      <TablePagination paginationMeta={meta} pagination={pagination} table={table} />
+
     </Fragment >
   );
 };

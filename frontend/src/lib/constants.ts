@@ -1,5 +1,9 @@
 export const STATUS = {
+  'open': 'Open',
   'in_progress': 'In process',
-  'done': 'Done',
   'closed': 'Closed',
+}
+
+export const SETTINGS = {
+  title: "TicketPulse"
 }

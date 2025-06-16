@@ -1,20 +1,30 @@
+import qs from "qs" // or use URLSearchParams if you prefer
 import { apiSlice } from "@/redux/api/apiSlice"
+
+type TicketQueryParams = {
+  page?: number;
+  limit?: number;
+  search?: string;
+};
 
 export const ticketsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    getTickets: builder.query<TicketT[], void>({
-      query: () => '/tickets',
+    getTickets: builder.query<PaginatedT<TicketT>, TicketQueryParams>({
+      query: (params: TicketQueryParams) => {
+        const queryString = qs.stringify(params, { skipNulls: true });
+        return `/tickets${queryString ? `?${queryString}` : ''}`;
+      },
       providesTags: ["tickets"],
     }),
     getTicket: builder.query<TicketT, string>({
       query: (id) => `/tickets/${id}`,
       providesTags: ["ticket"],
     }),
-    createTicket: builder.mutation<TicketT, TicketT>({
-      query: body => ({
+    createTicket: builder.mutation<TicketT, FormData>({
+      query: (formData) => ({
         url: '/tickets',
         method: 'POST',
-        body: { ...body }
+        body: formData
       }),
       invalidatesTags: ["tickets"],
     }),

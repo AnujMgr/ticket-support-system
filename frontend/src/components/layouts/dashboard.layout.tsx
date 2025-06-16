@@ -1,11 +1,14 @@
 import { Outlet } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 import { Toaster } from "@/components/ui/sonner"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
+import { selectCurrentTheme } from "@/redux/features/site/siteSlice"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 export default function DashboardLayout() {
+  const theme = useSelector(selectCurrentTheme);
   return (
     <SidebarProvider style={{ "--sidebar-width": "calc(var(--spacing) * 72)", "--header-height": "calc(var(--spacing) * 12)" } as React.CSSProperties}>
       <AppSidebar variant="inset" />
@@ -19,7 +22,7 @@ export default function DashboardLayout() {
           </div>
         </div>
       </SidebarInset>
-      <Toaster />
+      <Toaster theme={theme} />
     </SidebarProvider>
   )
 }

@@ -20,22 +20,23 @@ function TicketForm() {
   })
 
   function onSubmit(values: z.infer<typeof ticketFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    try {
-      createTicket(values);
+    const formData = new FormData();
+    formData.append("subject", values.subject);
+    formData.append("description", values.description);
+    formData.append("status", values.status);
+
+    if (values.attachment instanceof File) {
+      formData.append("attachment", values.attachment);
+    }
+    createTicket(formData as any).unwrap().then(() => {
       toast.success("Ticket has been created", {
         description: "Your ticket has been created successfully.",
       });
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  function showToast() {
-    toast.success("Ticket has been created", {
-      description: "Your ticket has been created successfully.",
-    });
+    }).catch((err) => {
+      toast.error("Ticket has not been created", {
+        description: err.data.message
+      })
+    })
   }
 
   return (
@@ -76,7 +77,8 @@ function TicketForm() {
               <FormControl>
                 <Input type="file" accept="image/png, image/jpeg, image/jpg" name={field.name} ref={field.ref} onBlur={field.onBlur}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    const file = e.target.files?.[0]; field.onChange(file || null); // Safer fallback
+                    const file = e.target.files?.[0];
+                    field.onChange(file || null); // Safer fallback
                   }}
                 />
               </FormControl>
@@ -126,8 +128,6 @@ function TicketForm() {
           {isLoading ? "Submitting..." : "Submit"}
         </Button>
       </form>
-
-      <Button onClick={showToast}>Show Toast</Button>
     </Form>
   )
 }
