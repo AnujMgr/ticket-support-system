@@ -9,7 +9,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credentials }
       })
     }),
+
+    getMe: builder.query({
+      query: () => '/me',
+      keepUnusedDataFor: 3600, // 1 hour
+      providesTags: ["users"]
+    })
   })
 })
 
-export const { useLoginMutation } = authApiSlice
+export const { useLoginMutation, useGetMeQuery } = authApiSlice

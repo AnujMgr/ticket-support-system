@@ -10,7 +10,7 @@ interface TicketT {
   subject: string,
   description: string,
   attachment: string | null,
-  status: string,
+  status: "in_progress" | "done" | "closed",
   messages: MessageT[],
   created_at: Date,
   updated_at: Date
@@ -23,4 +23,9 @@ interface MessageT {
   message: string,
   created_at: Date,
   updated_at: Date
+}
+
+interface APIErrorT {
+  data: { message: string },
+  status: number
 }

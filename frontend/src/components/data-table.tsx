@@ -69,7 +69,7 @@ const TableData: React.FC<TableDataProps> = ({
                     {headerGroup.headers.map((header: any, index: any) => (
                       <TableHead
                         key={index}
-                        className="text-gray-500 font-semibold"
+                        className="text-gray-500 dark:text-gray-200 font-semibold"
                       >
                         {flexRender(
                           header.column.columnDef.header,
@@ -84,7 +84,7 @@ const TableData: React.FC<TableDataProps> = ({
                 {getRowModel().rows.map((row, index) => (
                   <TableRow key={index}>
                     {row.getVisibleCells().map((cell, index) => (
-                      <TableCell key={index} className="text-gray-700">
+                      <TableCell key={index} className="text-gray-700 dark:text-gray-300">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

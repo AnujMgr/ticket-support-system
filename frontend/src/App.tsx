@@ -1,12 +1,13 @@
 import './App.css'
+import { createRoutes } from '@/routes'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { createRoutes } from './routes'
 
 function App() {
-  const router = createBrowserRouter(createRoutes())
+  const router = createBrowserRouter(createRoutes());
+
   return (
     <>
-      <RouterProvider router={router} />
+      {<RouterProvider router={router} />}
       {/* <Routes>
         <Route index element={<LoginPage />} />
         <Route path="/" element={<DashboardLayout />}>
