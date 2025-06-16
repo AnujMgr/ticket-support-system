@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTicketRequest;
 use App\Models\TicketMessage;
 use Illuminate\Http\Request;
 
@@ -26,9 +27,21 @@ class TicketMessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateTicketRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        try {
+            if ($request->hasFile('attachment')) {
+                $validated['attachment'] = $request->file('attachment')->store('attachments', 'public');
+            }
+
+            TicketMessage::create($validated);
+
+            return response()->json(['message' => 'Ticket created successfully'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create ticket'], 500);
+        }
     }
 
     /**

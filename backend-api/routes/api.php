@@ -12,7 +12,7 @@ Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::get('/refresh-token', [App\Http\Controllers\AuthController::class, 'refreshToken']);
 
 Route::middleware('auth:api')->group(function () {
-
+  Route::get('/me', [App\Http\Controllers\AuthController::class, 'me']);
   Route::prefix('users')->group(function () {
     Route::get('/', [App\Http\Controllers\UserController::class, 'index']);
     Route::post('/', [App\Http\Controllers\UserController::class, 'store']);

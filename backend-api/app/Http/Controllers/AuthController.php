@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Http;
 
 class AuthController extends BaseController
 {
+    public function me()
+    {
+        return response()->json(Auth::user());
+    }
+
     public function login(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -55,7 +60,7 @@ class AuthController extends BaseController
         if (empty($response) || isset($response['error'])) {
             return response()->json(['message' => 'Something went wrong'], 500);
         }
-        
+
         $token = $response->json();
         return response()
             ->json(['accessToken' => $token['access_token']])

@@ -28,7 +28,7 @@ class TicketController extends Controller
             'user_id' => auth()->id(),
             'subject' => $request->subject,
             'description' => $request->description,
-            'file_path' => $filePath,
+            'attachment' => $filePath,
         ]);
         return response()->json($ticket);
     }
@@ -38,7 +38,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return response()->json($ticket);
     }
 
     /**

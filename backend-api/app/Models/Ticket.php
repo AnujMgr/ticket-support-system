@@ -13,7 +13,7 @@ class Ticket extends Model
         'user_id',
         'subject',
         'description',
-        'file_path',
+        'attachment',
         'status',
         'response',
     ];
